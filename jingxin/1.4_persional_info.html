@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.picker.min.js"></script>
+		<script src="js/data.city.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="css/iconfont9.css" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+		<style type="text/css">
+			.mui-bar-nav {
+				background-color: black;
+				height: 3rem;
+			}
+			
+			.mui-title {
+				color: white;
+				line-height: 3rem;
+				text-align: left;
+			}
+			
+			img {
+				height: 6rem;
+				width: 7rem;
+			}
+			
+			.header {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background: url(img/1.4top_backgroud.png);
+				background-size: cover;
+			}
+			
+			.mui-pull-left {
+				color: white;
+			}
+			
+			.mui-content {
+				font-size: 1rem;
+			}
+			
+			li {
+				text-align: center;
+			}
+			
+			.footer {
+				background: #812456;
+				text-align: center;
+				font-size: 1rem;
+				line-height: 3rem;
+				height: 3rem;
+				flex: 0 0 auto;
+				margin-bottom: 0;
+			}
+			
+			.footer a {
+				color: white;
+				text-decoration: none;
+			}
+			
+			button {
+				border: none;
+				outline: none;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">靖欣婚介</h1>
+			<a class="mui-icon-more mui-icon iconfont icon-choose" style="color: white;float: right;"></a>
+		</header>
+		<div class="mui-content">
+			<div class="header">
+				<img src="img/1.4avatar.png" />
+			</div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-collapse">
+					<a>
+						昵称
+					</a>
+					<div class="mui-collapse-content">
+						<input class="txt" type="text" name="nickname" id="nickname" value="" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell mui-collapse">
+					<a>
+						真实姓名
+					</a>
+					<div class="mui-collapse-content">
+						<input class="txt" type="text" name="realname" id="realname" value="" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="choose-gender">
+						真实性别
+					</a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="choose-area">
+						地区
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-collapse">
+					<a>
+						微信号
+					</a>
+					<div class="mui-collapse-content">
+						<input class="txt" type="text" name="wechat" id="wechat" value="" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell mui-collapse">
+					<a>
+						手机号
+					</a>
+					<div class="mui-collapse-content">
+						<input class="txt" type="text" name="phone" id="phone" value="" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="choose-industry">
+						所属行业
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-collapse">
+					<a>
+						分享活动
+					</a>
+					<div class="mui-collapse-content">
+						<input class="txt" type="text" name="sharing" id="sharing" value="" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<a id="choose-birthday">
+						出生年月
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-collapse">
+					<a>
+						介绍
+					</a>
+					<div class="mui-collapse-content">
+						<input class="txt" type="text" name="introduction" id="introduction" value="" />
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="footer">
+			<a href="#">完成注册</a>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		//出生日期选择
+		var start_time_picker = new mui.DtPicker({
+			"type": "date",
+			"beginYear": 1960,
+			"endYear": 2017
+		});
+		$("#choose-birthday").on("tap", function() {
+			setTimeout(function() {
+				start_time_picker.show(function(items) {
+					$("#choose-birthday").html(items.text);
+				});
+			}, 200);
+		});
+
+		//城市选择
+		var city_picker = new mui.PopPicker({
+			layer: 3
+		});
+		city_picker.setData(init_city_picker);
+		$("#choose-area").on("tap", function() {
+			setTimeout(function() {
+				city_picker.show(function(items) {
+					$("#choose-area").val((items[0] || {}).value + "," + (items[1] || {}).value + "," + (items[2] || {}).value); //该ID为接收城市ID字段
+					$("#choose-area").html((items[0] || {}).text + " " + (items[1] || {}).text + " " + (items[2] || {}).text);
+				});
+			}, 200);
+		});
+
+		//性别选择
+		$("#choose-gender").on("tap", function() {
+			var gender = new mui.PopPicker();
+			gender.setData([{
+				value: 'man',
+				text: '男'
+			}, {
+				value: 'woman',
+				text: '女'
+			}]);
+			setTimeout(function() {
+				gender.show(function(items) {
+					$("#choose-gender").html(items[0].text);
+					console.log(items);
+				});
+			}, 200);
+		});
+
+		//行业选择
+		$("#choose-industry").on("tap", function() {
+			var gender = new mui.PopPicker();
+			gender.setData([{
+				value: 'manufacturing',
+				text: '制造业'
+			}, {
+				value: 'service',
+				text: '服务业'
+			}, {
+				value: 'it',
+				text: 'IT互联网'
+			}]);
+			setTimeout(function() {
+				gender.show(function(items) {
+					$("#choose-industry").html(items[0].text);
+					console.log(items);
+				});
+			}, 200);
+		});
+	</script>
+
+</html>
